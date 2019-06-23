@@ -35,7 +35,6 @@ public class Main2Activity extends AppCompatActivity {
             }
         });
 
-
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

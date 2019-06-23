@@ -1,9 +1,12 @@
 package com.speedystudios.chatwithstrangersadmin;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.VoiceInteractor;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,6 +18,7 @@ import android.widget.Toast;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    private static final String CHANNEL_ID = "Notificatoin Channel";
     //public static boolean NameHolder;
     EditText Email, Password, Name ;
     Button Register;
@@ -195,5 +199,6 @@ public class RegisterActivity extends AppCompatActivity {
         F_Result = "Not_Found" ;
 
     }
+
 
 }

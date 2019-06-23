@@ -1,11 +1,17 @@
 package com.speedystudios.chatwithstrangersadmin;
+import android.app.ActivityManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,9 +19,11 @@ import android.widget.Toast;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String CHANNEL_ID = "Notification Channel for Admin App of Chat With Strangers";
     Button LogInButton, RegisterButton ;
     EditText Email, Password ;
     String EmailHolder, PasswordHolder;
@@ -32,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        createNotificationChannel();
+        startService();
         /*Intent intent = getIntent();
         Uri uri = intent.getData();
         try {
@@ -83,6 +93,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+    Intent mServiceIntent;
+    private void startService() {
+        NotificationService mNotificationService = new NotificationService();
+        mServiceIntent = new Intent(getApplicationContext(), mNotificationService.getClass());
+        if(!isMyServiceRunning(mServiceIntent.getClass()))
+        {
+            startService(mServiceIntent);
+        }
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                Log.i ("isMyServiceRunning?", true+"");
+                return true;
+            }
+        }
+        Log.i ("isMyServiceRunning?", false+"");
+        return false;
     }
 
     // Login function starts from here.
@@ -148,7 +179,6 @@ public class MainActivity extends AppCompatActivity {
 
         if(TempPassword.equalsIgnoreCase(PasswordHolder))
         {
-
             Toast.makeText(MainActivity.this,"Login Successfully",Toast.LENGTH_LONG).show();
 
             // Going to Dashboard activity after login success message.
@@ -160,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
 
             startActivity(intent);
 
-
         }
         else {
 
@@ -171,4 +200,26 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        startService(mServiceIntent);
+        super.onDestroy();
+    }
 }

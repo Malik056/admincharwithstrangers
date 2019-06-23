@@ -12,6 +12,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="0dp"
         android:textColor="#000"
+        android:text="demo"
         android:textSize="17sp" />
 
     <TextView
