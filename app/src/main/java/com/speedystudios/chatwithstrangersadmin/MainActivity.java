@@ -61,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
 
         sqLiteHelper = new SQLiteHelper(this);
 
-        Intent mServiceIntent;
-
 //        mServiceIntent = new Intent(this, MyService.class);
 //        startService(mServiceIntent);
         //Adding click listener to log in button.

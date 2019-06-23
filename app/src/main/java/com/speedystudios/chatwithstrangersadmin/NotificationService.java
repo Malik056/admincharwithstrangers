@@ -1,5 +1,6 @@
 package com.speedystudios.chatwithstrangersadmin;
 
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
@@ -18,12 +19,23 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
+import static com.speedystudios.chatwithstrangersadmin.MainActivity.CHANNEL_ID;
+
 public class NotificationService extends Service {
 
 	Context mContext;
 	int myChannel;
 
 
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+				.setContentTitle("")
+				.setContentText("").build();
+
+		startForeground(1, notification);
+	}
 
 	int id = 0;
 
@@ -41,11 +53,11 @@ public class NotificationService extends Service {
 		reports.addChildEventListener(new ChildEventListener() {
 			@Override
 			public void onChildAdded(@NonNull DataSnapshot pDataSnapshot, @Nullable String pS) {
-				if(!pDataSnapshot.hasChild("done"))
+				if(!pDataSnapshot.getChildren().iterator().next().hasChild("done"))
 				{
-					pDataSnapshot.getRef().child("done").setValue(1);
-					String userID = pDataSnapshot.getChildren().iterator().next().getKey();
-					String reportedUser = pDataSnapshot.getChildren().iterator().next().getChildren().iterator().next().getKey();
+					pDataSnapshot.getChildren().iterator().next().getRef().child("done").setValue(1);
+					String userID = pDataSnapshot.getKey();
+					String reportedUser = pDataSnapshot.getChildren().iterator().next().getKey();
 					Intent intent = new Intent(mContext, Report_Details.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 					PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
@@ -128,9 +140,9 @@ public class NotificationService extends Service {
 
 	private void showNotification(PendingIntent pIntent, String title, String description)
 	{
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, MainActivity.CHANNEL_ID )
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, CHANNEL_ID )
 				.setSmallIcon(R.drawable.logo_small)
-				.setContentTitle("User Reported")
+				.setContentTitle(title)
 				.setContentText(description)
 				.setPriority(NotificationCompat.PRIORITY_DEFAULT)
 				.setContentIntent(pIntent);
