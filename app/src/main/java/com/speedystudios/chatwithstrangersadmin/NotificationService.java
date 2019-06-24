@@ -53,11 +53,11 @@ public class NotificationService extends Service {
 		reports.addChildEventListener(new ChildEventListener() {
 			@Override
 			public void onChildAdded(@NonNull DataSnapshot pDataSnapshot, @Nullable String pS) {
-				if(!pDataSnapshot.getChildren().iterator().next().hasChild("done"))
+				if(!pDataSnapshot.getChildren().iterator().next().getChildren().iterator().next().hasChild("done"))
 				{
-					pDataSnapshot.getChildren().iterator().next().getRef().child("done").setValue(1);
-					String userID = pDataSnapshot.getKey();
-					String reportedUser = pDataSnapshot.getChildren().iterator().next().getKey();
+					pDataSnapshot.getChildren().iterator().next().getChildren().iterator().next().getRef().child("done").setValue(1);
+					String userID = pDataSnapshot.getChildren().iterator().next().getKey();
+					String reportedUser = pDataSnapshot.getChildren().iterator().next().getChildren().iterator().next().getKey();
 					Intent intent = new Intent(mContext, Report_Details.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 					PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
