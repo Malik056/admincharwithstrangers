@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 import static com.speedystudios.chatwithstrangersadmin.MainActivity.CHANNEL_ID;
 
@@ -58,6 +59,12 @@ public class NotificationService extends Service {
 					pDataSnapshot.getChildren().iterator().next().getChildren().iterator().next().getRef().child("done").setValue(1);
 					String userID = pDataSnapshot.getChildren().iterator().next().getKey();
 					String reportedUser = pDataSnapshot.getChildren().iterator().next().getChildren().iterator().next().getKey();
+//					assert reportedUser != null;
+//					if(reportedUser.equals("done"))
+//					{
+//						Iterator<DataSnapshot> lIterator = pDataSnapshot.getChildren().iterator().next().getChildren().iterator().next().getChildren().iterator();
+//						reportedUser = lIterator.next().getKey();
+//					}
 					Intent intent = new Intent(mContext, Report_Details.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 					PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
@@ -145,14 +152,17 @@ public class NotificationService extends Service {
 				.setContentTitle(title)
 				.setContentText(description)
 				.setPriority(NotificationCompat.PRIORITY_DEFAULT)
-				.setContentIntent(pIntent);
+				.setContentIntent(pIntent)
+				.setAutoCancel(true);
 
-		NotificationManagerCompat notificationManager = NotificationManagerCompat.from(mContext);
+		NotificationManagerCompat notificationManager
+				= NotificationManagerCompat.from(mContext);
 
 // notificationId is a unique int for each notification that you must define
 		boolean added = false;
 		while(!added) {
 			try {
+				builder.build().flags |= Notification.FLAG_AUTO_CANCEL;
 				notificationManager.notify(id+=10, builder.build());
 				added = true;
 			} catch (Exception ignored) {
