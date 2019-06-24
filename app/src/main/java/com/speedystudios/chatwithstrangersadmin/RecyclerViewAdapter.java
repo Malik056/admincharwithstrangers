@@ -27,12 +27,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private static final String TAG = "RecyclerViewAdapter";
 
     private ArrayList<String> User_ID = new ArrayList<>();
-    private ArrayList<String> MAC_ADDR = new ArrayList<>();
+    private ArrayList<String> rID = new ArrayList<>();
     private Context mContext;
 
-    public RecyclerViewAdapter(Context context, ArrayList<String> user_IDs, ArrayList<String> MAC_ADDRs ) {
+    public RecyclerViewAdapter(Context context, ArrayList<String> user_IDs, ArrayList<String> rIDs ) {
         User_ID = user_IDs;
-        MAC_ADDR = MAC_ADDRs;
+        rID = rIDs;
         mContext = context;
     }
 
@@ -47,8 +47,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: called.");
 
-        holder.UserID.setText(User_ID.get(position));
-        holder.MAC_ADDR.setText(MAC_ADDR.get(position));
+        holder.UserID.setText(" User ID: " + User_ID.get(position));
+        holder.MAC_ADDR.setText(" Reported User ID : " + rID.get(position));
 
     }
 
@@ -66,8 +66,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         public ViewHolder(View itemView) {
             super(itemView);
-            UserID = itemView.findViewById(R.id.UserID);
-            MAC_ADDR = itemView.findViewById(R.id.MAC_Addr);
+            UserID = itemView.findViewById(R.id.uId);
+            MAC_ADDR = itemView.findViewById(R.id.rId);
             parentLayout = itemView.findViewById(R.id.parent_layout);
         }
     }
