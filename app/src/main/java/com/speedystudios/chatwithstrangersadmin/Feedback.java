@@ -44,10 +44,10 @@ public class Feedback extends AppCompatActivity {
                     {
                         dss.getRef();
                         String feedback = (String) dss.child("feedback").getValue();
-                        String name = "Feedback";
-                        String desc = user + " provided a feedback.";
-                        fuser.add(user);
-                        feedbackOfUser.add(feedback);
+                        String feed = " Feedback: " + feedback;
+                        String desc = " User: " + user;
+                        fuser.add(desc);
+                        feedbackOfUser.add(feed);
 
                     }
                 }

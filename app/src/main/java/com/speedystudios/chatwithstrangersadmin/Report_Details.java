@@ -22,6 +22,7 @@ public class Report_Details extends AppCompatActivity {
     private ArrayList<String> users = new ArrayList<>();
     private ArrayList<String> rusers = new ArrayList<>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,13 +35,13 @@ public class Report_Details extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot pDataSnapshot, @Nullable String pS) {
                 if(pDataSnapshot.getChildren().iterator().next().hasChildren())
                 {
-                    pDataSnapshot.getChildren().iterator().next().getRef();
-                    String userID = pDataSnapshot.getKey();
-                    String reportedUser = pDataSnapshot.getChildren().iterator().next().getKey();
-                    String desc = userID + " reprted user " + reportedUser;
-                    String title = "Report";
-                    users.add(userID);
-                    rusers.add(reportedUser);
+                    pDataSnapshot.getChildren().iterator().next().getChildren().iterator().next().getRef();
+                    String userID = pDataSnapshot.getChildren().iterator().next().getKey();
+                    String reportedUser = pDataSnapshot.getChildren().iterator().next().getChildren().iterator().next().getKey();
+                    String desc = " User ID: " + userID;
+                    String title = " Reported User ID:" + reportedUser;
+                    users.add(desc);
+                    rusers.add(title);
 
 
                 }

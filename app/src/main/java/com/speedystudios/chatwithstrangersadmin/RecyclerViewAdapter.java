@@ -28,6 +28,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private ArrayList<String> User_ID = new ArrayList<>();
     private ArrayList<String> rID = new ArrayList<>();
+
     private Context mContext;
 
     public RecyclerViewAdapter(Context context, ArrayList<String> user_IDs, ArrayList<String> rIDs ) {
@@ -35,7 +36,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         rID = rIDs;
         mContext = context;
     }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -44,11 +44,26 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: called.");
 
-        holder.UserID.setText(" User ID: " + User_ID.get(position));
-        holder.MAC_ADDR.setText(" Reported User ID : " + rID.get(position));
+        holder.UserID.setText(User_ID.get(position));
+        holder.MAC_ADDR.setText(rID.get(position));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //use position value  to get clicked data from list
+                int pos = holder.getAdapterPosition();
+                String uID = User_ID.get(pos);
+                String f_rId = rID.get(pos);
+
+                Intent i = new Intent(mContext, RecyclerViewClick.class);
+                i.putExtra("uId",uID);
+                i.putExtra("fid",f_rId);
+                mContext.startActivity(i);
+            }
+        });
 
     }
 
