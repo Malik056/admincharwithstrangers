@@ -30,13 +30,13 @@
         <activity android:name=".Banned_Users" />
         <activity android:name=".Report_Details" />
         <activity android:name=".Feedback" />
-        <activity android:name=".Main2Activity" /> <!-- <receiver -->
+        <activity android:name=".MainActivity" /> <!-- <receiver -->
         <!-- android:name="" -->
         <!-- android:enabled="true" -->
         <!-- android:exported="true" -->
         <!-- android:label="RestartServiceWhenStopped"> -->
         <!-- </receiver> -->
-        <activity android:name=".MainActivity">
+        <activity android:name=".Main2Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
